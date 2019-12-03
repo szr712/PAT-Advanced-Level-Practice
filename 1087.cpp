@@ -1,3 +1,6 @@
+/*
+引入了一个num数组用来记录当前结点与起点最短路的长度，以此来计算happy的平均值，典型的迪杰斯特拉
+*/
 #include<iostream>
 #include<algorithm>
 #include<string.h>
@@ -10,70 +13,101 @@
 #include<queue>
 using namespace std;
 
-vector<int>in;
-int n;
+const int maxn = 0x3ffffff;
 
-struct node
-{
-	int data;
-	node* left;
-	node* right;
-};
-
-bool flag = 0;
-
-void postOrderTraverse1(node* root) {
-	if (root != NULL) {
-		postOrderTraverse1(root->left);
-		postOrderTraverse1(root->right);
-		if (flag) {
-			printf(" %d", root->data);
-		}
-		else
-		{
-			flag = 1;
-			printf("%d", root->data);
-		}
-	}
-}
-
-node* create(int l, int r) {
-	if (l >= r)return NULL;
-	node* root=new node();
-	root->data = in[l];
-	int count = 1, pc = 0;
-	int i;
-	for (i = l+1; i <= r; i++) {
-		if (in[i] != -1) {
-			count++;
-		}
-		else
-		{
-			pc++;
-		}
-		if (pc == count) break;
-	}
-	root->left = create(l + 1, i - 1);
-	root->right = create(i + 1, r);
-	return root;
-}
+int  n, k;
+map<string, int> city2int;
+map<int, string>int2city;
+int maps[205][205];
+int happy[205];
+string start;
+int dis[205];
+bool used[205];
+int num[205];//代表当前结点与起点之间的最短路经过几个结点
+int pre[205];
+int h[205];//当前最短路的happy和
+int route[205];//最短路的条数
 
 int main() {
-	scanf("%d", &n);
-	for (int i = 0; i < n * 2; i++) {
-		char cmd[10];
-		scanf("%s", cmd);
-		if (strcmp(cmd, "Push") == 0) {
-			int x;
-			scanf("%d", &x);
-			in.push_back(x);
+	scanf("%d %d", &n, &k);
+	cin >> start;
+	city2int[start] = 0;
+	int2city[0] = start;
+	memset(happy, 0, sizeof(happy));
+	fill(maps[0], maps[0] + 205 * 205, maxn);
+	fill(dis, dis + 205, maxn);
+	memset(pre, -1, sizeof(pre));
+	memset(used, 0, sizeof(used));
+	fill(num, num + 205, maxn);
+	memset(h, 0, sizeof(h));
+	for (int i = 1; i <= n - 1; i++) {
+		string tmp;
+		int h;
+		cin >> tmp;
+		scanf("%d", &h);
+		city2int[tmp] = i;
+		int2city[i] = tmp;
+		happy[i] = h;
+	}
+	for (int i = 0; i < k; i++) {
+		string c1, c2;
+		cin >> c1 >> c2;
+		int cost;
+		scanf("%d", &cost);
+		maps[city2int[c1]][city2int[c2]] = cost;
+		maps[city2int[c2]][city2int[c1]] = cost;
+	}
+	//下面开始初始化起点位置
+	dis[0] = 0;
+	num[0] = 0;
+	h[0] = 0;
+	route[0] = 1;
+	for (int i = 0; i < n; i++) {
+		int v = -1, min = maxn;
+		for (int j = 0; j < n; j++) {
+			if (!used[j] && dis[j] < min) {
+				min = dis[j];
+				v = j;
+			}
 		}
-		else {
-			in.push_back(-1);
+		if (v == -1) break;
+		used[v] = 1;
+		for (int j = 0; j < n; j++) {
+			if (maps[v][j] + dis[v] < dis[j]) {
+				dis[j] = maps[v][j] + dis[v];
+				pre[j] = v;
+				num[j] = num[v] + 1;
+				h[j] = h[v] + happy[j];
+				route[j] = route[v];
+			}
+			else if (maps[v][j] + dis[v] == dis[j]) {
+				route[j] += route[v];
+				if (h[j] < h[v] + happy[j]) {
+					pre[j] = v;
+					num[j] = num[v] + 1;
+					h[j] = h[v] + happy[j];
+
+				}
+				else if (h[j] == h[v] + happy[j]) {
+					if (num[j] > num[v] + 1) {
+						num[j] = num[v] + 1;
+						pre[j] = v;
+					}
+				}
+			}
 		}
 	}
-	node* root = new node();
-	root=create(0, in.size() - 1);
-	postOrderTraverse1(root);
+	printf("%d %d %d %d\n", route[city2int["ROM"]], dis[city2int["ROM"]], h[city2int["ROM"]], h[city2int["ROM"]] / num[city2int["ROM"]]);
+	stack<int> r;
+	int prenode = pre[city2int["ROM"]];
+	while (prenode != -1) {
+		r.push(prenode);
+		prenode = pre[prenode];
+	}
+	while (!r.empty()) {
+		cout << int2city[r.top()] << "->";
+		r.pop();
+	}
+	cout << "ROM";
 	system("PAUSE");
 }
