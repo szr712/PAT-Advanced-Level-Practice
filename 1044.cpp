@@ -39,7 +39,7 @@ int main() {
 				left++;
 			}
 		}
-		m++;
+		m++;//变换m的值，直到找到一样的
 	}
 	system("PAUSE");
 }

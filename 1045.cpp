@@ -30,7 +30,7 @@ int main() {
 	}
 	for (int i = 0; i < color.size(); i++) {
 		for (int j = 0; j < stripe.size(); j++) {
-			if (color[i] == stripe[j])dp[i + 1][j + 1] = max(dp[i][j + 1], dp[i + 1][j]) + 1;
+			if (color[i] == stripe[j])dp[i + 1][j + 1] = max(dp[i][j + 1], dp[i + 1][j]) + 1;//i代表color遍历到哪了，j代表stripe遍历到哪了
 			else dp[i + 1][j + 1] = max(dp[i][j + 1], dp[i + 1][j]);
 		}
 	}

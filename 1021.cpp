@@ -46,7 +46,7 @@ int main() {
     for (int i = 1; i <= n; i++) {
         if (!used[i]) {
             dfs(i);
-            t++;
+            t++;//如果不是连通图，那直接就是错误的
         }
     }
     if (t > 1) {
@@ -56,7 +56,7 @@ int main() {
     for (int i = 1; i <= n; i++) {
         memset(used, 0, sizeof(used));
         tmax = 0;
-        dfs2(i, 0);
+        dfs2(i, 0);//以每个顶点作为root跑一遍dfs，获得深度
         de[i] = tmax;
         if (tmax > maxd) maxd = tmax;
     }

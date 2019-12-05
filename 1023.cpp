@@ -33,6 +33,7 @@ int main() {
                 break;
             }
         }
+        //如果存在多个相同的数也输出no
         if(j==ori.size()) {
             cout<<"No"<<endl;
             flag=0;

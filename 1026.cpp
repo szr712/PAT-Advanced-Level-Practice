@@ -54,7 +54,7 @@ int main() {
         table tmp;
         tmp.vip = 0;
         tmp.cnt = 0;
-        tmp.endtime = 28800;
+        tmp.endtime = 28800;//八点
         t.push_back(tmp);
     }
     for (int i = 0; i < k; i++) {
@@ -71,19 +71,19 @@ int main() {
                 minindex = j;
             }
         }
-        if (minend >= 75600 || r[i].arrive >= 75600) {
+        if (minend >= 75600 || r[i].arrive >= 75600) {//桌子服务结束时间或者用户到达时间超出九点  就都不做
             break;
         }
         int pid = i, tid = minindex;
         if (minend >= r[i].arrive) {
-            if (t[tid].vip) {
+            if (t[tid].vip) {//如果最快空下来的桌子是VIP桌子，那找到现在已经在排队的VIP用户
                 for (int x = pid; x < r.size() && r[x].arrive <= minend; x++) {
                     if (!r[x].served && r[x].vip) {
                         pid = x;
                         break;
                     }
                 }
-            } else if (r[pid].vip) {
+            } else if (r[pid].vip) {//这里实际上就是在判断相等的情况，就是当前用户是VIP然后他到达的一刻正好有一张VIP桌子空了
                 for (int j = 0; j < m; j++) {
                     if (t[j].vip && t[j].endtime <= r[pid].arrive) {
                         tid = j;
@@ -92,7 +92,7 @@ int main() {
                 }
             }
         } else {
-            if (r[pid].vip) {
+            if (r[pid].vip) {//如果当前等待队伍最前的是VIP用户，那要给他找到现在有没有另外空的VIP桌子
                 for (int j = 0; j < m; j++) {
                     if (t[j].vip && t[j].endtime <= r[pid].arrive) {
                         tid = j;
@@ -104,7 +104,7 @@ int main() {
         r[pid].start = max(r[pid].arrive, t[tid].endtime);
         r[pid].served = 1;
         t[tid].endtime = r[pid].start + r[pid].use;
-        t[tid].cnt++;
+        t[tid].cnt++;//更新情况
         while (i < r.size() && r[i].served) ++i;
     }
     sort(r.begin(),r.end(),cmp2);
