@@ -1,6 +1,5 @@
 /*
 这道题坑点很多
-首先是有可能一开始n就是0
 然后有可能给出的结点不是全部都在链表中
 最后一个最坑 就是可能给出的起始地址不在给出的结点的中
 */
@@ -22,11 +21,11 @@ int start;
 
 int main() {
 	scanf("%d %d", &n, &start);
-	if (n == 0) {
-		printf("%d %05d\n", n, start);
-		system("pause");
-		return 0;
-	}
+	// if (n == 0) {经过验证，给出零是不可能的
+	// 	printf("%d %05d\n", n, start);
+	// 	system("pause");
+	// 	return 0;
+	// }
 	for (int i = 0; i < n; i++) {
 		int a, next;
 		int key;
@@ -34,7 +33,7 @@ int main() {
 		link[a].first = key;
 		link[a].second = next;
 	}
-	if (link.find(start) == link.end()) {
+	if (link.find(start) == link.end()) {//开始结点就没给出
 		cout << 0 << " " << -1;
 		system("pause");
 		return 0;
@@ -44,7 +43,7 @@ int main() {
 		start = link[start].second;
 	}
 	start = ans.begin()->second;
-	printf("%d %05d\n", ans.size(), start);
+	printf("%d %05d\n", ans.size(), start);//要输出size，因为给出的结点不一定都在链表中
 	auto i = ans.begin();
 	while (i != ans.end()) {
 		printf("%05d %d", i->second, i->first);

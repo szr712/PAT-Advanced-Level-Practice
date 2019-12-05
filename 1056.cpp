@@ -20,7 +20,7 @@ struct mice
 };
 int n, g;
 vector<mice> weight;
-queue<mice*> line;
+queue<mice*> line;//主要是要用指针操作，这样的话就可以对vector内的值更改了
 queue<mice*> group;
 bool cmp1(mice a, mice b) {
 	return a.rank > b.rank;
@@ -41,10 +41,10 @@ int main() {
 	for (int i = 0; i < n; i++) {
 		int tmp;
 		scanf("%d", &tmp);
-		line.push(&weight[tmp]);
+		line.push(&weight[tmp]);//放进去地址
 	}
-	int r = 1;
-	int count = 0;
+	int r = 1;//现在的轮次
+	int count = 0;//记录现在group里面有几个
 	mice *maxm = line.front();
 	while (line.size() != 1 || !group.empty()) {
 		if (!line.empty()) {
@@ -62,7 +62,7 @@ int main() {
 					group.push(tmp);
 				}
 				if (count == g) {
-					line.push(maxm);
+					line.push(maxm);//最大的人继续进入队列
 					count = 0;
 					group = queue<mice*>();
 				}

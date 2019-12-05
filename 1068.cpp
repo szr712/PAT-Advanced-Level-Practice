@@ -16,7 +16,7 @@ vector<int>coin;
 vector<int>ans,t;
 
 bool flag = 0;
-void dfs(int index,int sum,int num) {
+void dfs(int index,int sum) {//计数的num是不需要的
 	if (flag) return;
 	if (sum == m) {
 		ans = t;
@@ -26,7 +26,7 @@ void dfs(int index,int sum,int num) {
 	if (sum > m) return;
 	for (int i = index; i < n; i++) {
 		t.push_back(coin[i]);
-		dfs(i + 1, sum + coin[i], num + 1);
+		dfs(i + 1, sum + coin[i]);
 		t.erase(t.end() - 1);
 	}
 	return;
@@ -47,7 +47,7 @@ int main() {
 		return 0;
 	}
 	sort(coin.begin(), coin.end());
-	dfs(0, 0, 0);
+	dfs(0, 0);
 	if (ans.size() == 0)printf("No Solution\n");
 	else {
 		printf("%d", ans[0]);

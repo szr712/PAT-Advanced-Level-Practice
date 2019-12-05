@@ -29,7 +29,7 @@ bool cmp(node a, node b) {
 void find(vector<int> path,long long sum,int root) {
 	sum = sum + weight[root];
 	path.push_back(weight[root]);
-	if (tree.find(root) == tree.end()&& sum==s) {
+	if (tree.find(root) == tree.end()&& sum==s) {//一定要保证是叶子，也就是在tree中没有child的结点
 		printf("%d", path[0]);
 		for (int i = 1; i < path.size(); i++) {
 			printf(" %d", path[i]);
@@ -56,7 +56,7 @@ int main() {
 		for (int j = 0; j < child; j++) {
 			node tmp;
 			scanf("%d", &tmp.id);
-			tmp.weight = weight[tmp.id];
+			tmp.weight = weight[tmp.id];//这里可以考虑用set的，不需要要结构体，上面weight已经建立映射了，用了set连排序都免了（但还没验证）
 			tree[id].push_back(tmp);
 		}
 		sort(tree[id].begin(), tree[id].end(), cmp);

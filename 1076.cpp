@@ -15,7 +15,7 @@ int n, l, k;
 map<int, vector<int>> tree;
 bool used[1005];
 int sum;
-int level[1005];
+int level[1005];//关键是要带一个level数组，这样可以知道到底遍历到哪一层了
 
 void bfs(int root) {
 	queue<int >q;
