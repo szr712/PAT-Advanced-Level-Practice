@@ -11,6 +11,7 @@ vector<int> pre[maxn];
 vector<int> path, tmp;
 int minsend = INF, minback = INF;
 
+//这个dfs相当于就是找从终点到起点的路线，然后通过这个遍历这个路线，找到符合要求的路线·
 void dfs(int v) {
     tmp.push_back(v);
     if (v == 0) {
