@@ -5,6 +5,7 @@
         "*.wxs": "javascript",
         "algorithm": "cpp",
         "iostream": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "stack": "cpp"
     }
 }
