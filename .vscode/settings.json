@@ -3,9 +3,11 @@
         "*.cjson": "jsonc",
         "*.wxss": "css",
         "*.wxs": "javascript",
+        "*.m": "matlab",
         "algorithm": "cpp",
         "iostream": "cpp",
         "xstring": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "utility": "cpp"
     }
 }
